@@ -64,7 +64,7 @@ The reported system evaluates the sensors using the following performance metric
 | Sensor              | Reported Accuracy |
 | ------------------- | ----------------: |
 | BH1750 Light Sensor |               ±2% |
-| MQ-135 Air Quality  |              ±10% |
+| MQ-135 Air Quality  |              ±5% |
 
 ## 📷 Project Hardware
 
