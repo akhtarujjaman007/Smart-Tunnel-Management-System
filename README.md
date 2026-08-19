@@ -106,7 +106,7 @@ Possible future improvements include:
 Md. Akhtarujjaman Siddiquee
 
 
-*Department of Internet of Things and Robotics Engineering*
+Department of Internet of Things and Robotics Engineering
 
-*University of Frontier Technology, Bangladesh*
+University of Frontier Technology, Bangladesh
 
