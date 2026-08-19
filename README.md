@@ -103,7 +103,7 @@ Possible future improvements include:
 
 ## 👨‍💻 Authors
 
-* **Md. Akhtarujjaman Siddiquee**
+Md. Akhtarujjaman Siddiquee**
 
 
 *Department of Internet of Things and Robotics Engineering*
