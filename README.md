@@ -106,6 +106,6 @@ Possible future improvements include:
 * **Md. Akhtarujjaman Siddiquee**
 
 
-**Department of Internet of Things and Robotics Engineering**
-**Bangabandhu Sheikh Mujibur Rahman Digital University, Bangladesh**
+*Department of Internet of Things and Robotics Engineering*
+*University of Frontier Technology, Bangladesh*
 
