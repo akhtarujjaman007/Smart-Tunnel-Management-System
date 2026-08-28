@@ -140,10 +140,7 @@ Never commit a real Blynk Auth Token or Wi-Fi password to a public repository. U
 
 ## Documentation
 
-See:
-
-- `documentation/User-Manual.pdf`
-- `documentation/Installation-Guide.pdf`
+See: Smart_Tunnel_IoT_Full_Documentation.docs
 
 ## Disclaimer
 
