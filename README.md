@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="images/smart-tunnel-banner.png" alt="Smart Tunnel Management System" width="100%">
+<img src="images/banner.png" alt="Smart Tunnel Management System" width="100%">
 
 # 🚇 Smart Tunnel Management System
 
@@ -61,7 +61,7 @@ The **Smart Tunnel Management System** is an ESP32-based IoT prototype designed 
 
 <div align="center">
 
-<img src="hardware/circuit-diagram.png" alt="Smart Tunnel Circuit Diagram" width="100%">
+<img src="hardware/circuit diagram.jpg" alt="Smart Tunnel Circuit Diagram" width="100%">
 
 </div>
 
@@ -92,7 +92,7 @@ The README will display it here:
 
 <div align="center">
 
-<img src="images/blynk-dashboard.png" alt="Blynk Dashboard" width="90%">
+<img src="images/BLYNK.png" alt="Blynk Dashboard" width="90%">
 
 </div>
 
@@ -210,19 +210,16 @@ Smart-Tunnel-Management-System/
 │       └── Smart_Tunnel_ESP32.ino
 │
 ├── hardware/
-│   ├── circuit-diagram.png
-│   ├── hardware-architecture.png
-│   └── pin-configuration.md
+│   └── circuit diagram.jpg
 │
 ├── documentation/
-│   ├── User-Manual.pdf
-│   └── Installation-Guide.pdf
+│   └── Smart_Tunnel_IoT_Full_Documentation.docx
 │
 └── images/
-    ├── smart-tunnel-banner.png
-    ├── blynk-dashboard.png
-    ├── prototype.jpg
-    └── hardware.jpg
+    ├── banner.png
+    ├── BLYNK.png
+    └── Project details.jpg
+    
 ```
 
 ---
@@ -244,9 +241,8 @@ credentials.h
 
 ## 📚 Documentation
 
-- [User Manual](documentation/User-Manual.pdf)
-- [Installation Guide](documentation/Installation-Guide.pdf)
-- [Pin Configuration](hardware/pin-configuration.md)
+- [User Manual](documentation/Smart_Tunnel_IoT_Full_Documentation.docx)
+
 
 ---
 
