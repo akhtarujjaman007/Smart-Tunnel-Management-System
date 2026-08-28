@@ -81,15 +81,6 @@ The **Smart Tunnel Management System** is an ESP32-based IoT prototype designed 
 ---
 
 ## 📱 Blynk Dashboard
-
-Put your **real Blynk dashboard screenshot** in:
-
-```text
-images/blynk-dashboard.png
-```
-
-The README will display it here:
-
 <div align="center">
 
 <img src="images/BLYNK.jpeg" alt="Blynk Dashboard" width="90%">
