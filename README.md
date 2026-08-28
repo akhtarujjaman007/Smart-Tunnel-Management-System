@@ -92,7 +92,7 @@ The README will display it here:
 
 <div align="center">
 
-<img src="images/BLYNK.png" alt="Blynk Dashboard" width="90%">
+<img src="images/BLYNK.jpeg" alt="Blynk Dashboard" width="90%">
 
 </div>
 
