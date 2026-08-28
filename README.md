@@ -1,112 +1,150 @@
-# 🚇 Smart Tunnel for Maintenance and Security
+# Smart Tunnel Management System
 
-An IoT-based smart tunnel monitoring and security system designed to provide **real-time environmental monitoring, lighting control, air-quality monitoring, and video surveillance**.
+An ESP32-based IoT prototype for tunnel environmental monitoring and automatic ventilation control.
 
-The system uses an **ESP32 microcontroller**, **BH1750 light sensor**, **MQ-135 air-quality sensor**, **ESP32-CAM**, **BLDC fan**, and **Blynk IoT platform** to monitor and control tunnel conditions remotely.
+## Current firmware implementation
 
-## 📌 Project Overview
+The current ESP32 firmware implements:
 
-Tunnels can be difficult to maintain and secure because of their length, complexity, and remote operating environment.
+- ESP32 as the main controller
+- MQ2 analog air-quality/gas sensing
+- BH1750 light-intensity sensing
+- L298N motor-driver interface
+- DC fan speed control using PWM
+- Automatic fan control based on MQ2 raw ADC thresholds
+- Manual fan control from Blynk
+- Wi-Fi connectivity
+- Blynk Cloud monitoring
+- Pollution and low-light event notifications
 
-This project integrates multiple IoT-based features into a single system:
+> **Important:** This repository's current firmware uses **MQ2**, not MQ135.  
+> ESP32-CAM is not controlled by the current `Smart_Tunnel_ESP32.ino` firmware. If a separate camera firmware is added later, place it under `firmware/ESP32_CAM/`.
 
-* 💡 Light-level monitoring and LED control
-* 🌫️ Air-quality monitoring
-* 📷 Video surveillance using ESP32-CAM
-* 🌀 Automatic fan control
-* 📱 Remote monitoring through Blynk
-* ☁️ IoT-based real-time data communication
-* 🔧 Modular and scalable architecture
+## Repository structure
 
-The system collects sensor data using the ESP32, processes the information, and sends it to the Blynk dashboard for remote monitoring and control.
+```text
+Smart-Tunnel-Management-System/
+├── README.md
+├── .gitignore
+├── firmware/
+│   └── Smart_Tunnel_ESP32/
+│       └── Smart_Tunnel_ESP32.ino
+├── hardware/
+│   ├── hardware-architecture.png
+│   ├── circuit-diagram.png
+│   └── pin-configuration.md
+├── documentation/
+│   ├── User-Manual.pdf
+│   └── Installation-Guide.pdf
+└── images/
+    ├── prototype.jpg
+    ├── blynk-dashboard.png
+    └── hardware.jpg
+```
 
-## 🎯 Objectives
+## System architecture
 
-* Monitor tunnel lighting conditions in real time.
-* Detect poor air-quality conditions.
-* Control tunnel ventilation using a fan.
-* Provide video surveillance for improved security.
-* Allow remote monitoring through the Blynk platform.
-* Reduce maintenance effort and improve tunnel safety.
-* Develop a low-cost and scalable IoT-based tunnel monitoring solution.
+The operating chain is:
 
-## 🛠️ Hardware Components
+```text
+MQ2 Sensor ──┐
+             ├──> ESP32 ──> Air-quality decision ──> PWM ──> L298N ──> DC Fan
+BH1750 ──────┘
+                │
+                └── Wi-Fi ──> Blynk Cloud ──> Blynk Dashboard
+```
 
-| Component       | Purpose                   |
-| --------------- | ------------------------- |
-| ESP32           | Main IoT microcontroller  |
-| BH1750          | Ambient light measurement |
-| MQ-135          | Air-quality monitoring    |
-| ESP32-CAM       | Video surveillance        |
-| L298N           | Motor/fan driver          |
-| BLDC Fan        | Tunnel ventilation        |
-| LEDs            | Tunnel lighting           |
-| FTDI Programmer | ESP32-CAM programming     |
+## Automatic fan control
 
-## 🧠 System Architecture
+The firmware uses raw MQ2 ADC values:
 
+| MQ2 raw ADC | Fan state | PWM |
+|---:|---|---:|
+| 0–490 | OFF | 0 |
+| 491–900 | LOW | 90 |
+| 901–1500 | MEDIUM | 170 |
+| >1500 | HIGH | 255 |
 
-## ⚙️ How It Works
+These values are **starting calibration thresholds**, not standardized ppm limits. Calibrate them for the actual sensor and tunnel environment before research or field deployment.
 
-1. The **BH1750** measures the ambient light level inside the tunnel.
-2. The **MQ-135** monitors air-quality conditions.
-3. The **ESP32** receives and processes sensor data.
-4. LEDs can be controlled according to lighting conditions.
-5. When air quality becomes poor, the ventilation fan can be activated.
-6. The **ESP32-CAM** provides video surveillance.
-7. Sensor information is transmitted to the **Blynk dashboard**.
-8. The system can be monitored and controlled remotely.
+## Blynk virtual pins
 
-## 📊 Performance
+| Pin | Function | Direction |
+|---|---|---|
+| V0 | MQ2 air-quality raw ADC | ESP32 → Blynk |
+| V1 | Automatic/Manual mode | Blynk → ESP32 |
+| V2 | BH1750 light level | ESP32 → Blynk |
+| V3 | Current fan PWM | ESP32 → Blynk |
+| V4 | Manual fan PWM | Blynk → ESP32 |
 
-The reported system evaluates the sensors using the following performance metrics:
+### Blynk mode
 
-| Sensor              | Reported Accuracy |
-| ------------------- | ----------------: |
-| BH1750 Light Sensor |               ±2% |
-| MQ-135 Air Quality  |              ±5% |
+- `V1 = 1` → Automatic mode
+- `V1 = 0` → Manual mode
+- `V4 = 0–255` → Manual fan PWM
 
-## 📷 Project Hardware
+## Blynk event codes
 
-The prototype combines the ESP32, ESP32-CAM, BH1750, MQ-135, motor driver, LEDs, and fan into a tunnel monitoring model.
+The current firmware calls:
 
-## 🔌 Circuit Diagram
+```text
+polution_alert
+lightdamage
+```
 
-The circuit connects the ESP32 with the BH1750 light sensor, MQ-135 air-quality sensor, ESP32-CAM, LED lighting, and L298N motor driver for fan control.
+The Blynk event codes must match these strings exactly.
 
-## 📱 IoT Platform
+## Hardware pin summary
 
-The project uses **Blynk** as the IoT platform.
+| Component | Connection |
+|---|---|
+| MQ2 AO | ESP32 GPIO34 |
+| BH1750 SDA | ESP32 default I2C SDA |
+| BH1750 SCL | ESP32 default I2C SCL |
+| L298N ENA/PWM | ESP32 GPIO15 |
+| L298N IN1 | ESP32 GPIO2 |
+| L298N IN2 | Not connected in current firmware |
+| L298N OUT1/OUT2 | DC fan |
+| ESP32/L298N GND | Common ground |
 
-The Blynk dashboard is used to:
+## Required libraries
 
-* Monitor sensor data
-* View tunnel conditions
-* Control the ventilation fan
-* Remotely monitor the system
+Install through Arduino IDE Library Manager:
 
-## 🚀 Future Improvements
+- Blynk
+- BH1750
 
-Possible future improvements include:
+Also install the ESP32 board package by Espressif Systems.
 
-* Predictive maintenance using machine learning
-* Energy optimization
-* Improved sensor accuracy and reliability
-* Advanced security monitoring
-* Automatic incident detection
-* Real-world tunnel deployment
-* Additional environmental sensors
-* More advanced data analytics
-* Improved software security
+## Quick start
 
+1. Open `firmware/Smart_Tunnel_ESP32/Smart_Tunnel_ESP32.ino`.
+2. Replace:
+   - `BLYNK_TEMPLATE_ID`
+   - `BLYNK_TEMPLATE_NAME`
+   - `BLYNK_AUTH_TOKEN`
+   - Wi-Fi SSID
+   - Wi-Fi password
+3. Create Blynk V0–V4 datastreams.
+4. Create Blynk events with codes `polution_alert` and `lightdamage`.
+5. Wire the hardware according to `hardware/pin-configuration.md`.
+6. Select the correct ESP32 board and COM port in Arduino IDE.
+7. Upload the firmware.
+8. Open Serial Monitor at 115200 baud.
+9. Test manual mode first, then automatic mode.
+10. Calibrate MQ2 thresholds before final deployment.
 
+## Security
 
-## 👨‍💻 Authors
+Never commit a real Blynk Auth Token or Wi-Fi password to a public repository. Use placeholders in the source published on GitHub.
 
-Md. Akhtarujjaman Siddiquee
+## Documentation
 
+See:
 
-Department of Internet of Things and Robotics Engineering
+- `documentation/User-Manual.pdf`
+- `documentation/Installation-Guide.pdf`
 
-University of Frontier Technology, Bangladesh
+## Disclaimer
 
+The MQ2 value in this project is a raw ADC reading. It should not be interpreted as a standardized air-quality index or gas concentration without appropriate calibration and validation.
