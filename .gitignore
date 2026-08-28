@@ -1,0 +1,20 @@
+# Arduino / PlatformIO
+.pio/
+.vscode/
+*.bin
+*.elf
+*.hex
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local credential/config files
+secrets.h
+credentials.h
+config.local.h
+.env
+
+# Arduino generated files
+build/
